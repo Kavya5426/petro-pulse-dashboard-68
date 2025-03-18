@@ -44,11 +44,15 @@ const DashboardLayout = () => {
         <Sidebar>
           <SidebarContent>
             <SidebarGroup>
+              <div className="p-6 space-y-2">
+                <h1 className="text-2xl font-bold text-primary">CTS</h1>
+                <p className="text-sm text-muted-foreground">Dashboard</p>
+              </div>
               <SidebarGroupContent>
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="/dashboard">
+                      <a href="/dashboard" className="flex items-center gap-3">
                         <Home className="w-4 h-4" />
                         <span>Home</span>
                       </a>
@@ -56,7 +60,7 @@ const DashboardLayout = () => {
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="/dashboard/inventory">
+                      <a href="/dashboard/inventory" className="flex items-center gap-3">
                         <Gift className="w-4 h-4" />
                         <span>Gift Inventory</span>
                       </a>
@@ -64,7 +68,7 @@ const DashboardLayout = () => {
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="/dashboard/reports">
+                      <a href="/dashboard/reports" className="flex items-center gap-3">
                         <FileText className="w-4 h-4" />
                         <span>Reports</span>
                       </a>
@@ -77,10 +81,10 @@ const DashboardLayout = () => {
         </Sidebar>
 
         <div className="flex-1">
-          <header className="h-16 border-b flex items-center justify-between px-6">
+          <header className="h-16 border-b flex items-center justify-between px-6 bg-white shadow-sm">
             <div className="flex items-center space-x-4">
               <SidebarTrigger />
-              <h1 className="text-xl font-semibold">{user?.role.charAt(0).toUpperCase() + user?.role.slice(1)} Dashboard</h1>
+              <h1 className="text-xl font-semibold text-primary">{user?.role.charAt(0).toUpperCase() + user?.role.slice(1)} Dashboard</h1>
             </div>
             <div className="flex items-center space-x-4">
               <DropdownMenu>
@@ -89,12 +93,12 @@ const DashboardLayout = () => {
                     <User className="h-5 w-5" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuItem className="flex items-center">
                     <User className="mr-2 h-4 w-4" />
                     <span>Profile</span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={handleLogout}>
+                  <DropdownMenuItem onClick={handleLogout} className="flex items-center text-red-600">
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>Log out</span>
                   </DropdownMenuItem>
@@ -103,7 +107,7 @@ const DashboardLayout = () => {
             </div>
           </header>
 
-          <main className="p-6">
+          <main className="bg-gray-50 min-h-[calc(100vh-4rem)]">
             <Outlet />
           </main>
         </div>

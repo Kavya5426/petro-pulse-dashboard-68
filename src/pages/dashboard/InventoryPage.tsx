@@ -1,43 +1,86 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import GiftInDialog from '@/components/dialogs/GiftInDialog';
+import GiftStockDialog from '@/components/dialogs/GiftStockDialog';
+import RedeemedGiftsDialog from '@/components/dialogs/RedeemedGiftsDialog';
+import { Gift, Package, Award } from 'lucide-react';
 
 const InventoryPage = () => {
+  const [giftInOpen, setGiftInOpen] = useState(false);
+  const [giftStockOpen, setGiftStockOpen] = useState(false);
+  const [redeemedGiftsOpen, setRedeemedGiftsOpen] = useState(false);
+
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Gift Inventory Management</CardTitle>
+    <div className="space-y-6 p-6">
+      <Card className="border-none shadow-lg">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl font-bold text-primary">Gift Inventory Management</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            <div className="flex gap-4">
-              <Button>Gift In</Button>
-              <Button variant="outline">Gift Stock</Button>
-              <Button variant="secondary">Redeemed Gifts</Button>
+          <div className="space-y-6">
+            <div className="flex flex-wrap gap-4">
+              <Button 
+                onClick={() => setGiftInOpen(true)}
+                className="bg-blue-600 hover:bg-blue-700 transition-colors flex gap-2"
+              >
+                <Gift className="w-4 h-4" />
+                Gift In
+              </Button>
+              <Button 
+                onClick={() => setGiftStockOpen(true)}
+                variant="outline"
+                className="hover:bg-gray-100 transition-colors flex gap-2"
+              >
+                <Package className="w-4 h-4" />
+                Gift Stock
+              </Button>
+              <Button 
+                onClick={() => setRedeemedGiftsOpen(true)}
+                variant="secondary"
+                className="hover:bg-gray-200 transition-colors flex gap-2"
+              >
+                <Award className="w-4 h-4" />
+                Redeemed Gifts
+              </Button>
             </div>
             
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Item</TableHead>
-                  <TableHead>Number of Items</TableHead>
-                  <TableHead>Date of Arrival</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell>Sample Gift 1</TableCell>
-                  <TableCell>10</TableCell>
-                  <TableCell>2024-03-18</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+            <div className="rounded-lg border">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Item</TableHead>
+                    <TableHead>Number of Items</TableHead>
+                    <TableHead>Date of Arrival</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>Sample Gift 1</TableCell>
+                    <TableCell>10</TableCell>
+                    <TableCell>2024-03-18</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
           </div>
         </CardContent>
       </Card>
+
+      <GiftInDialog 
+        open={giftInOpen} 
+        onClose={() => setGiftInOpen(false)} 
+      />
+      <GiftStockDialog 
+        open={giftStockOpen} 
+        onClose={() => setGiftStockOpen(false)} 
+      />
+      <RedeemedGiftsDialog 
+        open={redeemedGiftsOpen} 
+        onClose={() => setRedeemedGiftsOpen(false)} 
+      />
     </div>
   );
 };
