@@ -10,6 +10,9 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import HomePage from "./pages/dashboard/HomePage";
 import InventoryPage from "./pages/dashboard/InventoryPage";
 import ReportsPage from "./pages/dashboard/ReportsPage";
+import NewCardPage from "./pages/dashboard/NewCardPage";
+import DuplicateCardPage from "./pages/dashboard/DuplicateCardPage";
+import RedemptionPage from "./pages/dashboard/RedemptionPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +31,9 @@ const App = () => (
               <Route index element={<HomePage />} />
               <Route path="inventory" element={<InventoryPage />} />
               <Route path="reports" element={<ReportsPage />} />
+              <Route path="new-card" element={<NewCardPage />} />
+              <Route path="duplicate-card" element={<DuplicateCardPage />} />
+              <Route path="redemption" element={<RedemptionPage />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

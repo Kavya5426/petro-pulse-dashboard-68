@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
   SidebarProvider,
@@ -19,6 +19,9 @@ import {
   FileText,
   LogOut,
   User,
+  CreditCard,
+  Copy,
+  ShoppingCart,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -38,6 +41,32 @@ const DashboardLayout = () => {
     navigate('/login');
   };
 
+  // Define menu items based on user role
+  const getMenuItems = () => {
+    if (user?.role === 'admin') {
+      return [
+        { icon: Home, label: 'Home', path: '/dashboard' },
+        { icon: Gift, label: 'Gift Inventory', path: '/dashboard/inventory' },
+        { icon: FileText, label: 'Reports', path: '/dashboard/reports' },
+      ];
+    } else if (user?.role === 'manager') {
+      return [
+        { icon: Home, label: 'Home', path: '/dashboard' },
+        { icon: CreditCard, label: 'New Card', path: '/dashboard/new-card' },
+        { icon: Copy, label: 'Duplicate Card', path: '/dashboard/duplicate-card' },
+        { icon: ShoppingCart, label: 'Redemption', path: '/dashboard/redemption' },
+        { icon: Gift, label: 'Gift Inventory', path: '/dashboard/inventory' },
+        { icon: FileText, label: 'Reports', path: '/dashboard/reports' },
+      ];
+    } else {
+      return [
+        { icon: Home, label: 'Home', path: '/dashboard' },
+      ];
+    }
+  };
+
+  const menuItems = getMenuItems();
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
@@ -50,30 +79,16 @@ const DashboardLayout = () => {
               </div>
               <SidebarGroupContent>
                 <SidebarMenu>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild>
-                      <a href="/dashboard" className="flex items-center gap-3">
-                        <Home className="w-4 h-4" />
-                        <span>Home</span>
-                      </a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild>
-                      <a href="/dashboard/inventory" className="flex items-center gap-3">
-                        <Gift className="w-4 h-4" />
-                        <span>Gift Inventory</span>
-                      </a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild>
-                      <a href="/dashboard/reports" className="flex items-center gap-3">
-                        <FileText className="w-4 h-4" />
-                        <span>Reports</span>
-                      </a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
+                  {menuItems.map((item) => (
+                    <SidebarMenuItem key={item.label}>
+                      <SidebarMenuButton asChild>
+                        <Link to={item.path} className="flex items-center gap-3">
+                          <item.icon className="w-4 h-4" />
+                          <span>{item.label}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
@@ -107,7 +122,7 @@ const DashboardLayout = () => {
             </div>
           </header>
 
-          <main className="bg-gray-50 min-h-[calc(100vh-4rem)]">
+          <main className="bg-gray-50 min-h-[calc(100vh-4rem)] p-6">
             <Outlet />
           </main>
         </div>

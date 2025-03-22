@@ -14,7 +14,7 @@ const InventoryPage = () => {
   const [redeemedGiftsOpen, setRedeemedGiftsOpen] = useState(false);
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6">
       <Card className="border-none shadow-lg">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-primary">Gift Inventory Management</CardTitle>
@@ -24,7 +24,7 @@ const InventoryPage = () => {
             <div className="flex flex-wrap gap-4">
               <Button 
                 onClick={() => setGiftInOpen(true)}
-                className="bg-blue-600 hover:bg-blue-700 transition-colors flex gap-2"
+                className="bg-blue-600 hover:bg-blue-700 transition-all transform hover:scale-105 flex gap-2"
               >
                 <Gift className="w-4 h-4" />
                 Gift In
@@ -32,7 +32,7 @@ const InventoryPage = () => {
               <Button 
                 onClick={() => setGiftStockOpen(true)}
                 variant="outline"
-                className="hover:bg-gray-100 transition-colors flex gap-2"
+                className="hover:bg-gray-100 transition-all transform hover:scale-105 flex gap-2"
               >
                 <Package className="w-4 h-4" />
                 Gift Stock
@@ -40,7 +40,7 @@ const InventoryPage = () => {
               <Button 
                 onClick={() => setRedeemedGiftsOpen(true)}
                 variant="secondary"
-                className="hover:bg-gray-200 transition-colors flex gap-2"
+                className="hover:bg-gray-200 transition-all transform hover:scale-105 flex gap-2"
               >
                 <Award className="w-4 h-4" />
                 Redeemed Gifts
@@ -61,6 +61,16 @@ const InventoryPage = () => {
                     <TableCell>Sample Gift 1</TableCell>
                     <TableCell>10</TableCell>
                     <TableCell>2024-03-18</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Sample Gift 2</TableCell>
+                    <TableCell>15</TableCell>
+                    <TableCell>2024-03-20</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Sample Gift 3</TableCell>
+                    <TableCell>5</TableCell>
+                    <TableCell>2024-03-21</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
