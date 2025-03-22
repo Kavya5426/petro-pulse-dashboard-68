@@ -15,6 +15,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Card, CardContent } from "@/components/ui/card";
+import { Calendar, Package, ArrowDown } from "lucide-react";
 
 interface GiftStockDialogProps {
   open: boolean;
@@ -31,12 +33,53 @@ const GiftStockDialog = ({ open, onClose }: GiftStockDialogProps) => {
     { name: "Sample Gift B", date: "2024-03-12", quantity: 12 },
   ];
 
+  // Sample stock information
+  const stockInfo = {
+    lastCheckIn: "2024-04-10",
+    nextCheckIn: "2024-04-25",
+    totalItems: 50,
+  };
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold text-primary">Current Gift Stock</DialogTitle>
         </DialogHeader>
+        
+        {/* Stock summary cards */}
+        <div className="grid grid-cols-3 gap-4 mb-4">
+          <Card className="bg-blue-50">
+            <CardContent className="p-4 flex flex-col items-center">
+              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 mb-2">
+                <Calendar className="h-5 w-5 text-blue-600" />
+              </div>
+              <p className="text-sm font-medium text-gray-500">Last stock check-in</p>
+              <p className="text-lg font-bold">{stockInfo.lastCheckIn}</p>
+            </CardContent>
+          </Card>
+          
+          <Card className="bg-purple-50">
+            <CardContent className="p-4 flex flex-col items-center">
+              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-purple-100 mb-2">
+                <Calendar className="h-5 w-5 text-purple-600" />
+              </div>
+              <p className="text-sm font-medium text-gray-500">Next stock check-in</p>
+              <p className="text-lg font-bold">{stockInfo.nextCheckIn}</p>
+            </CardContent>
+          </Card>
+          
+          <Card className="bg-green-50">
+            <CardContent className="p-4 flex flex-col items-center">
+              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-green-100 mb-2">
+                <Package className="h-5 w-5 text-green-600" />
+              </div>
+              <p className="text-sm font-medium text-gray-500">No. of items</p>
+              <p className="text-lg font-bold">{stockInfo.totalItems}</p>
+            </CardContent>
+          </Card>
+        </div>
+        
         <div className="max-h-[400px] overflow-auto">
           <Table>
             <TableHeader className="sticky top-0 bg-white">

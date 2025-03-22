@@ -87,8 +87,8 @@ const DashboardLayout = () => {
                   {menuItems.map((item) => (
                     <SidebarMenuItem key={item.label}>
                       <SidebarMenuButton asChild>
-                        <Link to={item.path} className="flex items-center gap-3 text-base">
-                          <item.icon className="w-5 h-5" />
+                        <Link to={item.path} className="flex items-center gap-3 text-lg font-medium">
+                          <item.icon className="w-6 h-6" />
                           <span>{item.label}</span>
                         </Link>
                       </SidebarMenuButton>
