@@ -3,7 +3,12 @@ import React from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from 'react-router-dom';
-import { CreditCard, Copy, ShoppingCart, Gift, FileText } from 'lucide-react';
+import { CreditCard, Copy, ShoppingCart, Gift, FileText, TrendingUp, ArrowUpRight } from 'lucide-react';
+import { 
+  LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, ResponsiveContainer,
+  XAxis, YAxis, CartesianGrid, Tooltip, Legend
+} from 'recharts';
+import { ChartContainer, ChartTooltipContent, ChartTooltip } from "@/components/ui/chart";
 
 const HomePage = () => {
   const { user } = useAuth();
@@ -31,6 +36,39 @@ const HomePage = () => {
     }
   };
 
+  // Monthly data for the charts
+  const monthlyData = [
+    { name: 'Jan', cards: 65, redeemed: 40, stock: 240 },
+    { name: 'Feb', cards: 59, redeemed: 43, stock: 226 },
+    { name: 'Mar', cards: 80, redeemed: 45, stock: 281 },
+    { name: 'Apr', cards: 81, redeemed: 60, stock: 221 },
+    { name: 'May', cards: 56, redeemed: 45, stock: 214 },
+    { name: 'Jun', cards: 55, redeemed: 48, stock: 266 },
+    { name: 'Jul', cards: 72, redeemed: 61, stock: 250 },
+  ];
+
+  // Pie chart data
+  const giftDistribution = [
+    { name: 'Electronics', value: 400 },
+    { name: 'Kitchenware', value: 300 },
+    { name: 'Toys', value: 200 },
+    { name: 'Accessories', value: 278 },
+    { name: 'Others', value: 189 }
+  ];
+
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
+
+  const chartConfig = {
+    cards: { color: "#0088FE", label: "Cards Issued" },
+    redeemed: { color: "#00C49F", label: "Gifts Redeemed" },
+    stock: { color: "#FFBB28", label: "Gift Stock" },
+    Electronics: { color: "#0088FE", label: "Electronics" },
+    Kitchenware: { color: "#00C49F", label: "Kitchenware" },
+    Toys: { color: "#FFBB28", label: "Toys" },
+    Accessories: { color: "#FF8042", label: "Accessories" },
+    Others: { color: "#8884d8", label: "Others" },
+  };
+
   // Show the same interface for both manager and employee roles
   if (user?.role === 'manager' || user?.role === 'employee') {
     return (
@@ -40,25 +78,35 @@ const HomePage = () => {
           "Efficiency is doing things right; effectiveness is doing the right things."
         </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <Link to="/dashboard/new-card">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <Link to="/dashboard/new-card" className="col-span-1">
             <Card className="hover:shadow-xl transition-shadow cursor-pointer h-full border-2 border-gray-100">
               <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
                 <CardTitle className="text-xl font-bold">New Card Stats</CardTitle>
                 <CreditCard className="h-6 w-6 text-blue-500" />
               </CardHeader>
-              <CardContent className="pt-4">
-                <div className="grid gap-4">
+              <CardContent className="p-6">
+                <div className="h-48">
+                  <ChartContainer config={chartConfig} className="h-full">
+                    <BarChart data={monthlyData}>
+                      <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                      <XAxis dataKey="name" fontSize={12} axisLine={false} tickLine={false} />
+                      <YAxis fontSize={12} axisLine={false} tickLine={false} />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Bar dataKey="cards" name="Cards Issued" fill="#0088FE" radius={[4, 4, 0, 0]} />
+                    </BarChart>
+                  </ChartContainer>
+                </div>
+                <div className="mt-4 grid gap-4">
                   <div className="flex items-center justify-between">
-                    <p className="text-md text-muted-foreground">Cards issued this month</p>
+                    <p className="text-sm text-muted-foreground flex items-center">
+                      <TrendingUp className="text-green-500 mr-1 h-4 w-4" />
+                      Cards issued this month
+                    </p>
                     <p className="text-lg font-semibold">{statsData.newCard.issuedThisMonth}</p>
                   </div>
                   <div className="flex items-center justify-between">
-                    <p className="text-md text-muted-foreground">Cards issued this year</p>
-                    <p className="text-lg font-semibold">{statsData.newCard.issuedThisYear}</p>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <p className="text-md text-muted-foreground">Total generated</p>
+                    <p className="text-sm text-muted-foreground">Total generated</p>
                     <p className="text-lg font-semibold">{statsData.newCard.totalGenerated}</p>
                   </div>
                 </div>
@@ -66,62 +114,114 @@ const HomePage = () => {
             </Card>
           </Link>
           
-          <Link to="/dashboard/duplicate-card">
+          <Link to="/dashboard/duplicate-card" className="col-span-1">
             <Card className="hover:shadow-xl transition-shadow cursor-pointer h-full border-2 border-gray-100">
               <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
                 <CardTitle className="text-xl font-bold">Duplicate Card Stats</CardTitle>
                 <Copy className="h-6 w-6 text-indigo-500" />
               </CardHeader>
-              <CardContent className="pt-4">
-                <div className="grid gap-4">
-                  <div className="flex items-center justify-between">
-                    <p className="text-md text-muted-foreground">Deduction points</p>
-                    <p className="text-lg font-semibold">{statsData.duplicateCard.deductionPoints}</p>
+              <CardContent className="p-6">
+                <div className="h-48 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-6xl font-bold text-indigo-500">{statsData.duplicateCard.cardsIssued}</div>
+                    <div className="text-sm text-gray-500 mt-2">Total duplicate cards issued</div>
+                    <div className="mt-4 flex justify-center">
+                      <div className="bg-indigo-100 text-indigo-800 rounded-full px-3 py-1 text-sm flex items-center">
+                        <ArrowUpRight className="h-4 w-4 mr-1" />
+                        +12% from last month
+                      </div>
+                    </div>
                   </div>
+                </div>
+                <div className="mt-4 grid gap-4">
                   <div className="flex items-center justify-between">
-                    <p className="text-md text-muted-foreground">Cards issued</p>
-                    <p className="text-lg font-semibold">{statsData.duplicateCard.cardsIssued}</p>
+                    <p className="text-sm text-muted-foreground">Deduction points</p>
+                    <p className="text-lg font-semibold">{statsData.duplicateCard.deductionPoints}</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
           </Link>
           
-          <Link to="/dashboard/redemption">
+          <Link to="/dashboard/redemption" className="col-span-1">
             <Card className="hover:shadow-xl transition-shadow cursor-pointer h-full border-2 border-gray-100">
               <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
                 <CardTitle className="text-xl font-bold">Redemption Stats</CardTitle>
                 <ShoppingCart className="h-6 w-6 text-green-500" />
               </CardHeader>
-              <CardContent className="pt-4">
-                <div className="grid gap-4">
+              <CardContent className="p-6">
+                <div className="h-48">
+                  <ChartContainer config={chartConfig} className="h-full">
+                    <LineChart data={monthlyData}>
+                      <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                      <XAxis dataKey="name" fontSize={12} axisLine={false} tickLine={false} />
+                      <YAxis fontSize={12} axisLine={false} tickLine={false} />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Line type="monotone" dataKey="redeemed" name="Gifts Redeemed" stroke="#00C49F" strokeWidth={2} dot={{ r: 4 }} />
+                    </LineChart>
+                  </ChartContainer>
+                </div>
+                <div className="mt-4 grid gap-4">
                   <div className="flex items-center justify-between">
-                    <p className="text-md text-muted-foreground">Eligibility criteria</p>
+                    <p className="text-sm text-muted-foreground">Eligibility criteria</p>
                     <p className="text-lg font-semibold">{statsData.redemption.eligibilityCriteria}</p>
                   </div>
                   <div className="flex items-center justify-between">
-                    <p className="text-md text-muted-foreground">Customers eligible</p>
+                    <p className="text-sm text-muted-foreground">Customers eligible</p>
                     <p className="text-lg font-semibold">{statsData.redemption.customersEligible}</p>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <p className="text-md text-muted-foreground">Gifts redeemed</p>
-                    <p className="text-lg font-semibold">{statsData.redemption.giftsRedeemed}</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
           </Link>
           
-          <Link to="/dashboard/inventory">
+          <Link to="/dashboard/inventory" className="col-span-1 md:col-span-2">
             <Card className="hover:shadow-xl transition-shadow cursor-pointer h-full border-2 border-gray-100">
               <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
                 <CardTitle className="text-xl font-bold">Gift Inventory Stats</CardTitle>
                 <Gift className="h-6 w-6 text-purple-500" />
               </CardHeader>
-              <CardContent className="pt-4">
-                <div className="grid gap-4">
+              <CardContent className="p-6">
+                <div className="h-64">
+                  <ChartContainer config={chartConfig} className="h-full">
+                    <ResponsiveContainer>
+                      <div className="flex items-center h-full">
+                        <div className="w-1/2 h-full">
+                          <LineChart data={monthlyData}>
+                            <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                            <XAxis dataKey="name" fontSize={12} axisLine={false} tickLine={false} />
+                            <YAxis fontSize={12} axisLine={false} tickLine={false} />
+                            <Tooltip />
+                            <Legend />
+                            <Line type="monotone" dataKey="stock" name="Gift Stock" stroke="#FFBB28" strokeWidth={2} />
+                          </LineChart>
+                        </div>
+                        <div className="w-1/2 h-full">
+                          <PieChart>
+                            <Pie
+                              data={giftDistribution}
+                              cx="50%"
+                              cy="50%"
+                              labelLine={false}
+                              label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                              outerRadius={80}
+                              fill="#8884d8"
+                              dataKey="value"
+                            >
+                              {giftDistribution.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                              ))}
+                            </Pie>
+                            <Tooltip />
+                          </PieChart>
+                        </div>
+                      </div>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                </div>
+                <div className="mt-4 grid gap-4">
                   <div className="flex items-center justify-between">
-                    <p className="text-md text-muted-foreground">Current gift stock</p>
+                    <p className="text-sm text-muted-foreground">Current gift stock</p>
                     <p className="text-lg font-semibold">{statsData.report.giftStock}</p>
                   </div>
                 </div>
@@ -129,25 +229,44 @@ const HomePage = () => {
             </Card>
           </Link>
           
-          <Link to="/dashboard/reports">
+          <Link to="/dashboard/reports" className="col-span-1">
             <Card className="hover:shadow-xl transition-shadow cursor-pointer h-full border-2 border-gray-100">
               <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
                 <CardTitle className="text-xl font-bold">Reports Stats</CardTitle>
                 <FileText className="h-6 w-6 text-amber-500" />
               </CardHeader>
-              <CardContent className="pt-4">
-                <div className="grid gap-4">
-                  <div className="flex items-center justify-between">
-                    <p className="text-md text-muted-foreground">Gift stock</p>
-                    <p className="text-lg font-semibold">{statsData.report.giftStock}</p>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <p className="text-md text-muted-foreground">Cards assigned</p>
-                    <p className="text-lg font-semibold">{statsData.report.cardsAssigned}</p>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <p className="text-md text-muted-foreground">Gifts redeemed</p>
-                    <p className="text-lg font-semibold">{statsData.report.giftsRedeemed}</p>
+              <CardContent className="p-6">
+                <div className="h-48 flex flex-col justify-center">
+                  <div className="space-y-4">
+                    <div className="bg-gray-100 rounded-lg p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm text-gray-500">Gift Stock</span>
+                        <span className="text-sm font-medium">{statsData.report.giftStock}</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2.5">
+                        <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: '70%' }}></div>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-gray-100 rounded-lg p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm text-gray-500">Cards Assigned</span>
+                        <span className="text-sm font-medium">{statsData.report.cardsAssigned}</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2.5">
+                        <div className="bg-green-600 h-2.5 rounded-full" style={{ width: '85%' }}></div>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-gray-100 rounded-lg p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm text-gray-500">Gifts Redeemed</span>
+                        <span className="text-sm font-medium">{statsData.report.giftsRedeemed}</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2.5">
+                        <div className="bg-amber-500 h-2.5 rounded-full" style={{ width: '55%' }}></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </CardContent>
