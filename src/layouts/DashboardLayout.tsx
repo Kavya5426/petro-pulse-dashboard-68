@@ -49,7 +49,8 @@ const DashboardLayout = () => {
         { icon: Gift, label: 'Gift Inventory', path: '/dashboard/inventory' },
         { icon: FileText, label: 'Reports', path: '/dashboard/reports' },
       ];
-    } else if (user?.role === 'manager') {
+    } else if (user?.role === 'manager' || user?.role === 'employee') {
+      // Same menu items for both manager and employee roles
       return [
         { icon: Home, label: 'Home', path: '/dashboard' },
         { icon: CreditCard, label: 'New Card', path: '/dashboard/new-card' },
@@ -73,17 +74,21 @@ const DashboardLayout = () => {
         <Sidebar>
           <SidebarContent>
             <SidebarGroup>
-              <div className="p-6 space-y-2">
-                <h1 className="text-2xl font-bold text-primary">CTS</h1>
-                <p className="text-sm text-muted-foreground">Dashboard</p>
+              <div className="p-6 space-y-1">
+                <h1 className="text-3xl font-extrabold text-primary tracking-wider" 
+                    style={{ fontFamily: 'Impact, sans-serif', letterSpacing: '0.05em' }}>
+                  CASCADE
+                </h1>
+                <p className="text-xs font-medium text-muted-foreground -mt-1">technologies solutions</p>
+                <p className="text-sm font-medium text-muted-foreground mt-4">Dashboard</p>
               </div>
               <SidebarGroupContent>
                 <SidebarMenu>
                   {menuItems.map((item) => (
                     <SidebarMenuItem key={item.label}>
                       <SidebarMenuButton asChild>
-                        <Link to={item.path} className="flex items-center gap-3">
-                          <item.icon className="w-4 h-4" />
+                        <Link to={item.path} className="flex items-center gap-3 text-base">
+                          <item.icon className="w-5 h-5" />
                           <span>{item.label}</span>
                         </Link>
                       </SidebarMenuButton>
@@ -99,7 +104,9 @@ const DashboardLayout = () => {
           <header className="h-16 border-b flex items-center justify-between px-6 bg-white shadow-sm">
             <div className="flex items-center space-x-4">
               <SidebarTrigger />
-              <h1 className="text-xl font-semibold text-primary">{user?.role.charAt(0).toUpperCase() + user?.role.slice(1)} Dashboard</h1>
+              <h1 className="text-2xl font-semibold text-primary">
+                {user?.role.charAt(0).toUpperCase() + user?.role.slice(1)} Dashboard
+              </h1>
             </div>
             <div className="flex items-center space-x-4">
               <DropdownMenu>
@@ -122,7 +129,7 @@ const DashboardLayout = () => {
             </div>
           </header>
 
-          <main className="bg-gray-50 min-h-[calc(100vh-4rem)] p-6">
+          <main className="bg-gray-50 min-h-[calc(100vh-4rem)] p-8">
             <Outlet />
           </main>
         </div>
