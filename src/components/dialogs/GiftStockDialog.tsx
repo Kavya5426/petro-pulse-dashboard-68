@@ -47,40 +47,40 @@ const GiftStockDialog = ({ open, onClose }: GiftStockDialogProps) => {
           <DialogTitle className="text-xl font-semibold text-primary">Current Gift Stock</DialogTitle>
         </DialogHeader>
         
-        {/* Stock summary cards */}
-        <div className="grid grid-cols-3 gap-4 mb-4">
-          <Card className="bg-blue-50">
+        {/* Stock summary cards - Made more prominent */}
+        <div className="grid grid-cols-3 gap-4 mb-4 mt-2">
+          <Card className="bg-blue-50 shadow-md">
             <CardContent className="p-4 flex flex-col items-center">
-              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 mb-2">
-                <Calendar className="h-5 w-5 text-blue-600" />
+              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 mb-2">
+                <Calendar className="h-6 w-6 text-blue-600" />
               </div>
-              <p className="text-sm font-medium text-gray-500">Last stock check-in</p>
-              <p className="text-lg font-bold">{stockInfo.lastCheckIn}</p>
+              <p className="text-sm font-medium text-gray-600">Last stock check-in</p>
+              <p className="text-xl font-bold">{stockInfo.lastCheckIn}</p>
             </CardContent>
           </Card>
           
-          <Card className="bg-purple-50">
+          <Card className="bg-purple-50 shadow-md">
             <CardContent className="p-4 flex flex-col items-center">
-              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-purple-100 mb-2">
-                <Calendar className="h-5 w-5 text-purple-600" />
+              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-purple-100 mb-2">
+                <Calendar className="h-6 w-6 text-purple-600" />
               </div>
-              <p className="text-sm font-medium text-gray-500">Next stock check-in</p>
-              <p className="text-lg font-bold">{stockInfo.nextCheckIn}</p>
+              <p className="text-sm font-medium text-gray-600">Next stock check-in</p>
+              <p className="text-xl font-bold">{stockInfo.nextCheckIn}</p>
             </CardContent>
           </Card>
           
-          <Card className="bg-green-50">
+          <Card className="bg-green-50 shadow-md">
             <CardContent className="p-4 flex flex-col items-center">
-              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-green-100 mb-2">
-                <Package className="h-5 w-5 text-green-600" />
+              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-100 mb-2">
+                <Package className="h-6 w-6 text-green-600" />
               </div>
-              <p className="text-sm font-medium text-gray-500">No. of items</p>
-              <p className="text-lg font-bold">{stockInfo.totalItems}</p>
+              <p className="text-sm font-medium text-gray-600">No. of items</p>
+              <p className="text-xl font-bold">{stockInfo.totalItems}</p>
             </CardContent>
           </Card>
         </div>
         
-        <div className="max-h-[400px] overflow-auto">
+        <div className="max-h-[400px] overflow-auto border rounded-lg shadow-inner">
           <Table>
             <TableHeader className="sticky top-0 bg-white">
               <TableRow>

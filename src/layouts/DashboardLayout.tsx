@@ -30,6 +30,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
+import ProfileDialog from '@/components/dialogs/ProfileDialog';
 
 const DashboardLayout = () => {
   const { user, logout } = useAuth();
@@ -115,12 +116,15 @@ const DashboardLayout = () => {
                     <User className="h-5 w-5" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
-                  <DropdownMenuItem className="flex items-center">
+                <DropdownMenuContent align="end" className="w-56 bg-white">
+                  <DropdownMenuItem 
+                    className="flex items-center cursor-pointer" 
+                    onClick={() => setIsProfileOpen(true)}
+                  >
                     <User className="mr-2 h-4 w-4" />
                     <span>Profile</span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={handleLogout} className="flex items-center text-red-600">
+                  <DropdownMenuItem onClick={handleLogout} className="flex items-center text-red-600 cursor-pointer">
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>Log out</span>
                   </DropdownMenuItem>
@@ -129,11 +133,20 @@ const DashboardLayout = () => {
             </div>
           </header>
 
-          <main className="bg-gray-50 min-h-[calc(100vh-4rem)] p-8">
+          <main className="bg-gray-50 h-[calc(100vh-4rem)] overflow-auto p-8">
             <Outlet />
           </main>
         </div>
       </div>
+      
+      {/* Profile Dialog */}
+      {user && (
+        <ProfileDialog 
+          open={isProfileOpen} 
+          onClose={() => setIsProfileOpen(false)} 
+          user={user}
+        />
+      )}
     </SidebarProvider>
   );
 };

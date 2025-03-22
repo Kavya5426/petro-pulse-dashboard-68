@@ -6,12 +6,20 @@ import { Button } from "@/components/ui/button";
 import GiftInDialog from '@/components/dialogs/GiftInDialog';
 import GiftStockDialog from '@/components/dialogs/GiftStockDialog';
 import RedeemedGiftsDialog from '@/components/dialogs/RedeemedGiftsDialog';
-import { Gift, Package, Award } from 'lucide-react';
+import { Gift, Package, Award, Calendar, AlertCircle } from 'lucide-react';
 
 const InventoryPage = () => {
   const [giftInOpen, setGiftInOpen] = useState(false);
   const [giftStockOpen, setGiftStockOpen] = useState(false);
   const [redeemedGiftsOpen, setRedeemedGiftsOpen] = useState(false);
+  
+  // Sample inventory stats
+  const inventoryStats = {
+    totalItems: 50,
+    lowStockItems: 3,
+    lastCheckIn: "2024-04-10",
+    nextCheckIn: "2024-04-25",
+  };
 
   return (
     <div className="space-y-6">
@@ -20,6 +28,49 @@ const InventoryPage = () => {
           <CardTitle className="text-2xl font-bold text-primary">Gift Inventory Management</CardTitle>
         </CardHeader>
         <CardContent>
+          {/* Stats cards */}
+          <div className="grid grid-cols-4 gap-4 mb-6">
+            <Card className="bg-blue-50 border-none shadow-sm">
+              <CardContent className="p-4 flex flex-col items-center justify-center">
+                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 mb-2">
+                  <Package className="h-6 w-6 text-blue-600" />
+                </div>
+                <p className="text-sm font-medium text-gray-600">Total Items</p>
+                <p className="text-2xl font-bold">{inventoryStats.totalItems}</p>
+              </CardContent>
+            </Card>
+            
+            <Card className="bg-red-50 border-none shadow-sm">
+              <CardContent className="p-4 flex flex-col items-center justify-center">
+                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-red-100 mb-2">
+                  <AlertCircle className="h-6 w-6 text-red-600" />
+                </div>
+                <p className="text-sm font-medium text-gray-600">Low Stock Items</p>
+                <p className="text-2xl font-bold">{inventoryStats.lowStockItems}</p>
+              </CardContent>
+            </Card>
+            
+            <Card className="bg-green-50 border-none shadow-sm">
+              <CardContent className="p-4 flex flex-col items-center justify-center">
+                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-100 mb-2">
+                  <Calendar className="h-6 w-6 text-green-600" />
+                </div>
+                <p className="text-sm font-medium text-gray-600">Last Check-in</p>
+                <p className="text-2xl font-bold">{inventoryStats.lastCheckIn}</p>
+              </CardContent>
+            </Card>
+            
+            <Card className="bg-purple-50 border-none shadow-sm">
+              <CardContent className="p-4 flex flex-col items-center justify-center">
+                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-purple-100 mb-2">
+                  <Calendar className="h-6 w-6 text-purple-600" />
+                </div>
+                <p className="text-sm font-medium text-gray-600">Next Check-in</p>
+                <p className="text-2xl font-bold">{inventoryStats.nextCheckIn}</p>
+              </CardContent>
+            </Card>
+          </div>
+          
           <div className="space-y-6">
             <div className="flex flex-wrap gap-4">
               <Button 
@@ -47,7 +98,7 @@ const InventoryPage = () => {
               </Button>
             </div>
             
-            <div className="rounded-lg border">
+            <div className="rounded-lg border shadow-sm">
               <Table>
                 <TableHeader>
                   <TableRow>
