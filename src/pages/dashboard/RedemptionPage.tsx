@@ -6,13 +6,17 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
 
 const RedemptionPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [addPointsOpen, setAddPointsOpen] = useState(false);
   const [checkGiftsOpen, setCheckGiftsOpen] = useState(false);
+  const [otpDialogOpen, setOtpDialogOpen] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState<any>(null);
+  const [selectedGift, setSelectedGift] = useState<any>(null);
   const [pointsToAdd, setPointsToAdd] = useState('0');
+  const [otp, setOtp] = useState('');
   
   // Sample data
   const customers = [
@@ -40,18 +44,35 @@ const RedemptionPage = () => {
   const handleSubmitPoints = () => {
     // In a real app, this would update points in the backend
     console.log(`Added ${pointsToAdd} points to ${selectedCustomer.name}`);
+    toast.success(`Added ${pointsToAdd} points to ${selectedCustomer.name}`);
     setAddPointsOpen(false);
     setPointsToAdd('0');
   };
   
   const handleBuyGift = (gift: any) => {
-    // In a real app, this would process the redemption
-    console.log(`${selectedCustomer.name} redeemed ${gift.item}`);
+    // Set the selected gift and open the OTP dialog
+    setSelectedGift(gift);
+    setOtpDialogOpen(true);
+  };
+
+  const handleVerifyOtp = () => {
+    // In a real app, this would verify the OTP against a backend
+    if (otp.length === 4) {
+      // Process the redemption after OTP verification
+      console.log(`${selectedCustomer.name} redeemed ${selectedGift.item}`);
+      toast.success(`Successfully redeemed ${selectedGift.item}`);
+      setOtpDialogOpen(false);
+      setCheckGiftsOpen(false);
+      setOtp('');
+    } else {
+      toast.error("Please enter a valid 4-digit OTP");
+    }
   };
   
   const generateBill = () => {
     // In a real app, this would generate a bill
     console.log('Generating bill');
+    toast.success("Bill generated successfully!");
   };
 
   return (
@@ -196,6 +217,45 @@ const RedemptionPage = () => {
               </DialogFooter>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* OTP Verification Dialog */}
+      <Dialog open={otpDialogOpen} onOpenChange={setOtpDialogOpen}>
+        <DialogContent className="sm:max-w-[400px]">
+          <DialogHeader>
+            <DialogTitle>Verify OTP</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <p className="text-sm text-muted-foreground">
+              Please enter the 4-digit OTP sent to your registered mobile number to confirm redemption of{" "}
+              {selectedGift?.item}.
+            </p>
+            
+            <div className="space-y-2">
+              <Label htmlFor="otp">Enter OTP</Label>
+              <Input 
+                id="otp" 
+                maxLength={4}
+                className="text-center text-xl tracking-widest"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, '').substring(0, 4))}
+                placeholder="• • • •"
+              />
+            </div>
+          </div>
+          <DialogFooter className="flex space-x-2 justify-end">
+            <Button 
+              variant="outline" 
+              onClick={() => {
+                setOtpDialogOpen(false);
+                setOtp('');
+              }}
+            >
+              Cancel
+            </Button>
+            <Button onClick={handleVerifyOtp}>Verify</Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
