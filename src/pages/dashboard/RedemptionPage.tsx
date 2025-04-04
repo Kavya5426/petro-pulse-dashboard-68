@@ -1,22 +1,33 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { Download, Printer, X } from "lucide-react";
+import { format } from "date-fns";
 
 const RedemptionPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [addPointsOpen, setAddPointsOpen] = useState(false);
   const [checkGiftsOpen, setCheckGiftsOpen] = useState(false);
   const [otpDialogOpen, setOtpDialogOpen] = useState(false);
+  const [billDialogOpen, setBillDialogOpen] = useState(false);
+  const [billPreviewOpen, setBillPreviewOpen] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState<any>(null);
   const [selectedGift, setSelectedGift] = useState<any>(null);
   const [pointsToAdd, setPointsToAdd] = useState('0');
   const [otp, setOtp] = useState('');
+  const [billData, setBillData] = useState({
+    openingPoints: '0',
+    deductionPoints: '0',
+    additionalPoints: '0',
+  });
+  
+  const billRef = useRef<HTMLDivElement>(null);
   
   // Sample data
   const customers = [
@@ -69,11 +80,124 @@ const RedemptionPage = () => {
     }
   };
   
-  const generateBill = () => {
-    // In a real app, this would generate a bill
-    console.log('Generating bill');
-    toast.success("Bill generated successfully!");
+  const handleBillDataChange = (field: keyof typeof billData, value: string) => {
+    setBillData(prev => ({
+      ...prev,
+      [field]: value.replace(/[^0-9]/g, '')
+    }));
   };
+  
+  const generateBill = () => {
+    // Open bill dialog to input points
+    setBillDialogOpen(true);
+  };
+  
+  const handleSubmitBill = () => {
+    setBillDialogOpen(false);
+    setBillPreviewOpen(true);
+  };
+  
+  const downloadBill = () => {
+    if (billRef.current) {
+      const content = billRef.current;
+      const canvas = document.createElement('canvas');
+      canvas.width = content.offsetWidth * 2;
+      canvas.height = content.offsetHeight * 2;
+      const context = canvas.getContext('2d');
+      
+      if (context) {
+        // Higher resolution
+        context.scale(2, 2);
+        
+        // Use html2canvas to convert the div to an image
+        import('html2canvas').then(html2canvas => {
+          html2canvas.default(content, { 
+            scale: 2,
+            backgroundColor: null,
+            logging: false
+          }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = `loyalty-bill-${format(new Date(), 'yyyy-MM-dd')}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            toast.success("Bill downloaded successfully");
+          });
+        });
+      }
+    }
+  };
+
+  const printBill = () => {
+    if (billRef.current) {
+      // Create a new window
+      const printWindow = window.open('', '_blank');
+      
+      if (printWindow) {
+        const content = billRef.current.innerHTML;
+        
+        printWindow.document.write(`
+          <html>
+            <head>
+              <title>Loyalty Bill</title>
+              <style>
+                body {
+                  font-family: Arial, sans-serif;
+                  padding: 20px;
+                }
+                .bill-container {
+                  width: 400px;
+                  margin: 0 auto;
+                  padding: 20px;
+                  border: 1px solid #ddd;
+                  background-color: white;
+                }
+                h1, h2 {
+                  text-align: center;
+                  margin-bottom: 10px;
+                }
+                .divider {
+                  border-top: 1px solid #ddd;
+                  margin: 15px 0;
+                }
+                .row {
+                  display: flex;
+                  justify-content: space-between;
+                  margin: 10px 0;
+                }
+                @media print {
+                  .no-print {
+                    display: none;
+                  }
+                }
+              </style>
+            </head>
+            <body>
+              <div class="bill-container">
+                ${content}
+              </div>
+              <div class="no-print" style="text-align: center; margin-top: 20px;">
+                <button onclick="window.print()">Print</button>
+                <button onclick="window.close()">Close</button>
+              </div>
+              <script>
+                window.onload = function() {
+                  setTimeout(function() {
+                    window.print();
+                  }, 500);
+                }
+              </script>
+            </body>
+          </html>
+        `);
+        
+        printWindow.document.close();
+        toast.success("Bill sent to printer");
+      }
+    }
+  };
+
+  // Calculate total points
+  const totalPoints = parseInt(billData.openingPoints) - parseInt(billData.deductionPoints) + parseInt(billData.additionalPoints);
 
   return (
     <div className="space-y-6">
@@ -256,6 +380,122 @@ const RedemptionPage = () => {
             </Button>
             <Button onClick={handleVerifyOtp}>Verify</Button>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Bill Data Dialog */}
+      <Dialog open={billDialogOpen} onOpenChange={setBillDialogOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Generate Bill</DialogTitle>
+            <DialogDescription>
+              Enter the points information to generate a loyalty bill.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="openingPoints">Opening Points</Label>
+              <Input 
+                id="openingPoints" 
+                value={billData.openingPoints}
+                onChange={(e) => handleBillDataChange('openingPoints', e.target.value)}
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="deductionPoints">Deduction Points</Label>
+              <Input 
+                id="deductionPoints" 
+                value={billData.deductionPoints}
+                onChange={(e) => handleBillDataChange('deductionPoints', e.target.value)}
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="additionalPoints">Additional Points</Label>
+              <Input 
+                id="additionalPoints" 
+                value={billData.additionalPoints}
+                onChange={(e) => handleBillDataChange('additionalPoints', e.target.value)}
+              />
+            </div>
+          </div>
+          
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setBillDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleSubmitBill}>Generate Bill</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Bill Preview Dialog */}
+      <Dialog open={billPreviewOpen} onOpenChange={setBillPreviewOpen}>
+        <DialogContent className="sm:max-w-[500px] p-8">
+          <div ref={billRef} className="bg-white p-6 rounded-lg">
+            <div className="text-center text-2xl font-bold">Loyalty Scheme</div>
+            <div className="text-center text-xl font-bold mb-4">BALAJI HIGHWAY PETROLEUM</div>
+            
+            <div className="mb-4">
+              <div>Phone: 7224554934</div>
+            </div>
+            
+            <div className="border-t border-gray-300 my-4"></div>
+            
+            <div className="mb-2">
+              <div>Date: {format(new Date(), 'M/d/yyyy')}</div>
+            </div>
+            
+            <div className="mb-2">
+              <div>Opening Points: {billData.openingPoints}</div>
+            </div>
+            
+            <div className="mb-2">
+              <div>Deduction Points: {billData.deductionPoints}</div>
+            </div>
+            
+            <div className="mb-2">
+              <div>Additional Points: {billData.additionalPoints}</div>
+            </div>
+            
+            <div className="mb-2">
+              <div>Total Points: {totalPoints}</div>
+            </div>
+            
+            <div className="border-t border-gray-300 my-4"></div>
+            
+            <div className="mb-2">
+              <div>Redeemable Points: {totalPoints}</div>
+            </div>
+            
+            <div className="border-t border-gray-300 my-4"></div>
+          </div>
+          
+          <div className="flex justify-center gap-4 mt-4">
+            <Button 
+              onClick={printBill}
+              className="bg-blue-500 hover:bg-blue-600"
+            >
+              <Printer className="mr-2 h-4 w-4" />
+              Print
+            </Button>
+            <Button 
+              onClick={downloadBill}
+              className="bg-blue-500 hover:bg-blue-600"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Download
+            </Button>
+            <Button 
+              variant="destructive"
+              onClick={() => setBillPreviewOpen(false)}
+            >
+              <X className="mr-2 h-4 w-4" />
+              Close
+            </Button>
+          </div>
         </DialogContent>
       </Dialog>
     </div>
