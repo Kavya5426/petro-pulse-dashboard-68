@@ -435,42 +435,55 @@ const RedemptionPage = () => {
       <Dialog open={billPreviewOpen} onOpenChange={setBillPreviewOpen}>
         <DialogContent className="sm:max-w-[500px] p-8">
           <div ref={billRef} className="bg-white p-6 rounded-lg">
-            <div className="text-center text-2xl font-bold">Loyalty Scheme</div>
-            <div className="text-center text-xl font-bold mb-4">BALAJI HIGHWAY PETROLEUM</div>
+            <div className="text-center text-3xl font-bold">Loyalty Scheme</div>
+            <div className="text-center text-xl font-semibold mb-4">BALAJI HIGHWAY PETROLEUM</div>
             
-            <div className="mb-4">
-              <div>Phone: 7224554934</div>
+            <div className="flex justify-between items-center mb-2">
+              <div className="text-sm">Bill No: L{Math.floor(Math.random() * 10000)}</div>
+              <div className="text-sm">Date: {format(new Date(), 'dd/MM/yyyy')}</div>
             </div>
             
-            <div className="border-t border-gray-300 my-4"></div>
-            
-            <div className="mb-2">
-              <div>Date: {format(new Date(), 'M/d/yyyy')}</div>
+            <div className="border-t border-b border-gray-300 py-2 my-3">
+              <div className="flex justify-between items-center">
+                <div className="font-semibold">Phone:</div>
+                <div>7224554934</div>
+              </div>
             </div>
             
-            <div className="mb-2">
-              <div>Opening Points: {billData.openingPoints}</div>
+            <div className="my-6 space-y-3">
+              <div className="flex justify-between items-center">
+                <div className="font-medium">Opening Points:</div>
+                <div>{billData.openingPoints}</div>
+              </div>
+              
+              <div className="flex justify-between items-center">
+                <div className="font-medium">Deduction Points:</div>
+                <div>-{billData.deductionPoints}</div>
+              </div>
+              
+              <div className="flex justify-between items-center">
+                <div className="font-medium">Additional Points:</div>
+                <div>+{billData.additionalPoints}</div>
+              </div>
             </div>
             
-            <div className="mb-2">
-              <div>Deduction Points: {billData.deductionPoints}</div>
+            <div className="border-t border-gray-300 pt-3 mt-3">
+              <div className="flex justify-between items-center font-bold">
+                <div>Total Points:</div>
+                <div>{totalPoints}</div>
+              </div>
             </div>
             
-            <div className="mb-2">
-              <div>Additional Points: {billData.additionalPoints}</div>
+            <div className="border-t border-gray-300 pt-3 mt-6 mb-2">
+              <div className="flex justify-between items-center font-bold">
+                <div>Redeemable Points:</div>
+                <div>{totalPoints}</div>
+              </div>
             </div>
             
-            <div className="mb-2">
-              <div>Total Points: {totalPoints}</div>
+            <div className="mt-8 pt-4 text-center text-sm text-gray-500">
+              Thank you for your business!
             </div>
-            
-            <div className="border-t border-gray-300 my-4"></div>
-            
-            <div className="mb-2">
-              <div>Redeemable Points: {totalPoints}</div>
-            </div>
-            
-            <div className="border-t border-gray-300 my-4"></div>
           </div>
           
           <div className="flex justify-center gap-4 mt-4">
