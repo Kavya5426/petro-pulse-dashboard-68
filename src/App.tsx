@@ -15,7 +15,14 @@ import DuplicateCardPage from "./pages/dashboard/DuplicateCardPage";
 import RedemptionPage from "./pages/dashboard/RedemptionPage";
 import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1
+    }
+  }
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>

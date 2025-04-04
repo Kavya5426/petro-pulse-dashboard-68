@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Outlet, useNavigate, Link } from 'react-router-dom';
+import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
   SidebarProvider,
@@ -35,6 +35,7 @@ import ProfileDialog from '@/components/dialogs/ProfileDialog';
 const DashboardLayout = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const handleLogout = () => {
@@ -50,8 +51,8 @@ const DashboardLayout = () => {
         { icon: Gift, label: 'Gift Inventory', path: '/dashboard/inventory' },
         { icon: FileText, label: 'Reports', path: '/dashboard/reports' },
       ];
-    } else if (user?.role === 'manager' || user?.role === 'employee') {
-      // Same menu items for both manager and employee roles
+    } else {
+      // Default menu items for managers, employees and other roles
       return [
         { icon: Home, label: 'Home', path: '/dashboard' },
         { icon: CreditCard, label: 'New Card', path: '/dashboard/new-card' },
@@ -59,10 +60,6 @@ const DashboardLayout = () => {
         { icon: ShoppingCart, label: 'Redemption', path: '/dashboard/redemption' },
         { icon: Gift, label: 'Gift Inventory', path: '/dashboard/inventory' },
         { icon: FileText, label: 'Reports', path: '/dashboard/reports' },
-      ];
-    } else {
-      return [
-        { icon: Home, label: 'Home', path: '/dashboard' },
       ];
     }
   };
@@ -87,7 +84,10 @@ const DashboardLayout = () => {
                 <SidebarMenu>
                   {menuItems.map((item) => (
                     <SidebarMenuItem key={item.label}>
-                      <SidebarMenuButton asChild>
+                      <SidebarMenuButton 
+                        asChild 
+                        active={location.pathname === item.path}
+                      >
                         <Link to={item.path} className="flex items-center gap-3 text-lg font-medium">
                           <item.icon className="w-6 h-6" />
                           <span>{item.label}</span>
