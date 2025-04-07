@@ -73,11 +73,14 @@ const DashboardLayout = () => {
           <SidebarContent>
             <SidebarGroup>
               <div className="p-6 space-y-1">
-                <h1 className="text-3xl font-extrabold text-primary tracking-wider" 
-                    style={{ fontFamily: 'Impact, sans-serif', letterSpacing: '0.05em' }}>
-                  CASCADE
-                </h1>
-                <p className="text-xs font-medium text-muted-foreground -mt-1">technologies solutions</p>
+                <div className="flex justify-center">
+                  <img 
+                    src="/lovable-uploads/154a4711-7830-4e91-a6d0-3f368433c31d.png" 
+                    alt="hhp logo" 
+                    className="h-16 w-auto"
+                  />
+                </div>
+                <p className="text-xs font-medium text-muted-foreground text-center mt-2">technologies solutions</p>
                 <p className="text-sm font-medium text-muted-foreground mt-4">Dashboard</p>
               </div>
               <SidebarGroupContent>
@@ -86,7 +89,7 @@ const DashboardLayout = () => {
                     <SidebarMenuItem key={item.label}>
                       <SidebarMenuButton 
                         asChild 
-                        active={location.pathname === item.path}
+                        isActive={location.pathname === item.path}
                       >
                         <Link to={item.path} className="flex items-center gap-3 text-lg font-medium">
                           <item.icon className="w-6 h-6" />
