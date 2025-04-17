@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -20,6 +20,21 @@ const NewCardPage = () => {
   const [otpValue, setOtpValue] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
   const { toast } = useToast();
+
+  // Generate random ID and card number on component mount
+  useEffect(() => {
+    // Generate a random customer ID between 10000-99999
+    const randomCustomerId = Math.floor(10000 + Math.random() * 90000).toString();
+    
+    // Generate a random card number (8 digits)
+    const randomCardNumber = Math.floor(10000000 + Math.random() * 90000000).toString();
+    
+    setFormData(prev => ({
+      ...prev,
+      customerId: randomCustomerId,
+      cardNumber: randomCardNumber
+    }));
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -57,11 +72,15 @@ const NewCardPage = () => {
   };
 
   const resetForm = () => {
+    // Generate new random IDs when resetting the form
+    const randomCustomerId = Math.floor(10000 + Math.random() * 90000).toString();
+    const randomCardNumber = Math.floor(10000000 + Math.random() * 90000000).toString();
+    
     setFormData({
       customerName: '',
       phoneNumber: '',
-      customerId: '',
-      cardNumber: ''
+      customerId: randomCustomerId,
+      cardNumber: randomCardNumber
     });
     setOtpValue("");
     setStep(1);
@@ -115,22 +134,24 @@ const NewCardPage = () => {
                 <Label htmlFor="customerId">Customer ID</Label>
                 <Input 
                   id="customerId" 
-                  placeholder="Enter customer ID"
+                  placeholder="Auto-generated"
                   value={formData.customerId}
-                  onChange={handleInputChange}
-                  required
+                  readOnly
+                  className="bg-gray-100"
                 />
+                <p className="text-xs text-muted-foreground">Auto-generated customer ID</p>
               </div>
               
               <div className="space-y-2">
                 <Label htmlFor="cardNumber">Card Number</Label>
                 <Input 
                   id="cardNumber" 
-                  placeholder="Enter card number"
+                  placeholder="Auto-generated"
                   value={formData.cardNumber}
-                  onChange={handleInputChange}
-                  required
+                  readOnly
+                  className="bg-gray-100"
                 />
+                <p className="text-xs text-muted-foreground">Auto-generated card number</p>
               </div>
               
               <Button type="submit" className="w-full">
