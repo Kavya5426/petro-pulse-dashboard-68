@@ -73,14 +73,13 @@ const DashboardLayout = () => {
           <SidebarContent>
             <SidebarGroup>
               <div className="p-6 space-y-1">
-                <div className="flex justify-center">
+                <div className="flex justify-center w-full px-2">
                   <img 
                     src="/lovable-uploads/154a4711-7830-4e91-a6d0-3f368433c31d.png" 
                     alt="hhp logo" 
-                    className="h-16 w-auto"
+                    className="w-full h-auto max-h-24 object-contain"
                   />
                 </div>
-                <p className="text-xs font-medium text-muted-foreground text-center mt-2">technologies solutions</p>
                 <p className="text-sm font-medium text-muted-foreground mt-4">Dashboard</p>
               </div>
               <SidebarGroupContent>
@@ -155,3 +154,4 @@ const DashboardLayout = () => {
 };
 
 export default DashboardLayout;
+
