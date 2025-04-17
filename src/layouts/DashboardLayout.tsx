@@ -72,7 +72,7 @@ const DashboardLayout = () => {
         <Sidebar>
           <SidebarContent>
             <SidebarGroup>
-              <div className="p-4 space-y-1">
+              <div className="p-4 space-y-1 bg-gray-50">
                 <div className="flex justify-center w-full">
                   <div className="w-full max-w-[240px] overflow-hidden">
                     <img 
@@ -80,8 +80,8 @@ const DashboardLayout = () => {
                       alt="hhp logo" 
                       className="w-full h-auto max-h-32 object-contain"
                       style={{
-                        filter: 'drop-shadow(0 0 1px rgba(0,0,0,0.1))',
-                        backgroundColor: 'transparent'
+                        backgroundColor: '#F9FAFB', // Tailwind's gray-50 hex code
+                        filter: 'drop-shadow(0 0 1px rgba(0,0,0,0.1))'
                       }}
                     />
                   </div>
