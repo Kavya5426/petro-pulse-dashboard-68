@@ -72,13 +72,19 @@ const DashboardLayout = () => {
         <Sidebar>
           <SidebarContent>
             <SidebarGroup>
-              <div className="p-6 space-y-1">
-                <div className="flex justify-center w-full px-2">
-                  <img 
-                    src="/lovable-uploads/154a4711-7830-4e91-a6d0-3f368433c31d.png" 
-                    alt="hhp logo" 
-                    className="w-full h-auto max-h-24 object-contain"
-                  />
+              <div className="p-4 space-y-1">
+                <div className="flex justify-center w-full">
+                  <div className="w-full max-w-[240px] overflow-hidden">
+                    <img 
+                      src="/lovable-uploads/154a4711-7830-4e91-a6d0-3f368433c31d.png" 
+                      alt="hhp logo" 
+                      className="w-full h-auto max-h-32 object-contain"
+                      style={{
+                        filter: 'drop-shadow(0 0 1px rgba(0,0,0,0.1))',
+                        backgroundColor: 'transparent'
+                      }}
+                    />
+                  </div>
                 </div>
                 <p className="text-sm font-medium text-muted-foreground mt-4">Dashboard</p>
               </div>
@@ -154,4 +160,3 @@ const DashboardLayout = () => {
 };
 
 export default DashboardLayout;
-
