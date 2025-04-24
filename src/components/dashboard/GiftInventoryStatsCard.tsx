@@ -22,25 +22,46 @@ const GiftInventoryStatsCard: React.FC = () => {
             <ChartContainer config={chartConfig} className="h-full">
               <ResponsiveContainer width="100%" height="100%">
                 <div className="flex flex-col sm:flex-row items-center h-full gap-4">
-                  <div className="w-full sm:w-1/2 h-full">
-                    <LineChart data={monthlyData}>
+                  <div className="w-full sm:w-1/2 h-full min-h-[160px]">
+                    <LineChart 
+                      data={monthlyData}
+                      margin={{ top: 5, right: 10, left: -20, bottom: 5 }}
+                    >
                       <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-                      <XAxis dataKey="name" fontSize={12} axisLine={false} tickLine={false} />
-                      <YAxis fontSize={12} axisLine={false} tickLine={false} />
+                      <XAxis 
+                        dataKey="name" 
+                        fontSize={10} 
+                        axisLine={false} 
+                        tickLine={false}
+                        tick={{ fontSize: 10 }}
+                      />
+                      <YAxis 
+                        fontSize={10} 
+                        axisLine={false} 
+                        tickLine={false}
+                        tick={{ fontSize: 10 }}
+                      />
                       <Tooltip />
-                      <Legend />
-                      <Line type="monotone" dataKey="stock" name="Gift Stock" stroke="#FFBB28" strokeWidth={2} />
+                      <Legend wrapperStyle={{ fontSize: '10px' }}/>
+                      <Line 
+                        type="monotone" 
+                        dataKey="stock" 
+                        name="Gift Stock" 
+                        stroke="#FFBB28" 
+                        strokeWidth={2}
+                        dot={{ r: 3 }}
+                      />
                     </LineChart>
                   </div>
-                  <div className="w-full sm:w-1/2 h-full">
-                    <PieChart>
+                  <div className="w-full sm:w-1/2 h-full min-h-[160px] flex items-center justify-center">
+                    <PieChart width={160} height={160}>
                       <Pie
                         data={giftDistribution}
                         cx="50%"
                         cy="50%"
                         labelLine={false}
                         label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                        outerRadius={80}
+                        outerRadius={60}
                         fill="#8884d8"
                         dataKey="value"
                       >

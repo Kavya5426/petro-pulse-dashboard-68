@@ -66,7 +66,7 @@ const DashboardLayout = () => {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
-        <Sidebar>
+        <Sidebar className="bg-white/80 backdrop-blur-sm">
           <SidebarContent>
             <SidebarGroup>
               <div className="p-4">

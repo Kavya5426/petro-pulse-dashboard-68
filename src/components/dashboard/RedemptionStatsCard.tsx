@@ -19,16 +19,38 @@ const RedemptionStatsCard: React.FC = () => {
         </CardHeader>
         <CardContent className="p-6">
           <div className="h-48">
-            <ChartContainer config={chartConfig} className="h-full">
-              <LineChart data={monthlyData}>
+            <ChartContainer config={chartConfig} className="h-full w-full">
+              <LineChart
+                data={monthlyData}
+                margin={{ top: 5, right: 10, left: -20, bottom: 5 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-                <XAxis dataKey="name" fontSize={12} axisLine={false} tickLine={false} />
-                <YAxis fontSize={12} axisLine={false} tickLine={false} />
+                <XAxis 
+                  dataKey="name" 
+                  fontSize={10} 
+                  axisLine={false} 
+                  tickLine={false}
+                  tick={{ fontSize: 10 }}
+                />
+                <YAxis 
+                  fontSize={10} 
+                  axisLine={false} 
+                  tickLine={false}
+                  tick={{ fontSize: 10 }}
+                />
                 <ChartTooltip content={<ChartTooltipContent />} />
-                <Line type="monotone" dataKey="redeemed" name="Gifts Redeemed" stroke="#00C49F" strokeWidth={2} dot={{ r: 4 }} />
+                <Line 
+                  type="monotone" 
+                  dataKey="redeemed" 
+                  name="Gifts Redeemed" 
+                  stroke="#00C49F" 
+                  strokeWidth={2} 
+                  dot={{ r: 3 }} 
+                />
               </LineChart>
             </ChartContainer>
           </div>
+          
           <div className="mt-4 grid gap-4">
             <div className="flex items-center justify-between">
               <p className="text-sm text-muted-foreground">Eligibility criteria</p>
