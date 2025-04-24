@@ -13,13 +13,7 @@ const HomePage = () => {
       <div className="space-y-6">
         <WelcomeBanner />
         
-        {(user?.role === 'manager' || user?.role === 'employee') ? (
-          <DashboardCardGrid />
-        ) : (
-          <div className="max-w-4xl mx-auto">
-            {/* Admin view has no cards, just the welcome banner */}
-          </div>
-        )}
+        {user?.role === 'admin' && <DashboardCardGrid />}
       </div>
     </StatsProvider>
   );

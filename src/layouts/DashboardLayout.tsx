@@ -49,6 +49,14 @@ const DashboardLayout = () => {
         { icon: Gift, label: 'Gift Inventory', path: '/dashboard/inventory' },
         { icon: FileText, label: 'Reports', path: '/dashboard/reports' },
       ];
+    } else if (user?.role === 'employee') {
+      return [
+        { icon: Home, label: 'Home', path: '/dashboard' },
+        { icon: CreditCard, label: 'New Card', path: '/dashboard/new-card' },
+        { icon: Copy, label: 'Duplicate Card', path: '/dashboard/duplicate-card' },
+        { icon: ShoppingCart, label: 'Redemption', path: '/dashboard/redemption' },
+        { icon: FileText, label: 'Gift Reports', path: '/dashboard/gift-report' },
+      ];
     } else {
       return [
         { icon: Home, label: 'Home', path: '/dashboard' },

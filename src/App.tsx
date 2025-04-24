@@ -13,6 +13,7 @@ import ReportsPage from "./pages/dashboard/ReportsPage";
 import NewCardPage from "./pages/dashboard/NewCardPage";
 import DuplicateCardPage from "./pages/dashboard/DuplicateCardPage";
 import RedemptionPage from "./pages/dashboard/RedemptionPage";
+import GiftReportPage from "./pages/dashboard/GiftReportPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient({
@@ -41,6 +42,7 @@ const App = () => (
               <Route path="new-card" element={<NewCardPage />} />
               <Route path="duplicate-card" element={<DuplicateCardPage />} />
               <Route path="redemption" element={<RedemptionPage />} />
+              <Route path="gift-report" element={<GiftReportPage />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
