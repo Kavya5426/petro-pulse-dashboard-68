@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CreditCard, TrendingUp } from 'lucide-react';
-import { BarChart, Bar, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { BarChart, Bar, CartesianGrid, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { useStats } from './StatsContext';
 
@@ -19,16 +19,38 @@ const NewCardStatsCard: React.FC = () => {
         </CardHeader>
         <CardContent className="p-6">
           <div className="h-48">
-            <ChartContainer config={chartConfig} className="h-full">
-              <BarChart data={monthlyData}>
-                <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-                <XAxis dataKey="name" fontSize={12} axisLine={false} tickLine={false} />
-                <YAxis fontSize={12} axisLine={false} tickLine={false} />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar dataKey="cards" name="Cards Issued" fill="#0088FE" radius={[4, 4, 0, 0]} />
-              </BarChart>
+            <ChartContainer config={chartConfig} className="h-full w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart 
+                  data={monthlyData}
+                  margin={{ top: 5, right: 5, left: -20, bottom: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                  <XAxis 
+                    dataKey="name" 
+                    fontSize={10} 
+                    axisLine={false} 
+                    tickLine={false}
+                    tick={{ fontSize: 10 }}
+                  />
+                  <YAxis 
+                    fontSize={10} 
+                    axisLine={false} 
+                    tickLine={false}
+                    tick={{ fontSize: 10 }}
+                  />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Bar 
+                    dataKey="cards" 
+                    name="Cards Issued" 
+                    fill="#0088FE" 
+                    radius={[4, 4, 0, 0]} 
+                  />
+                </BarChart>
+              </ResponsiveContainer>
             </ChartContainer>
           </div>
+          
           <div className="mt-4 grid gap-4">
             <div className="flex items-center justify-between">
               <p className="text-sm text-muted-foreground flex items-center">

@@ -3,12 +3,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Gift } from 'lucide-react';
-import { LineChart, Line, PieChart, Pie, Cell, ResponsiveContainer, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 import { ChartContainer } from "@/components/ui/chart";
 import { useStats } from './StatsContext';
 
 const GiftInventoryStatsCard: React.FC = () => {
-  const { monthlyData, giftDistribution, chartColors, chartConfig } = useStats();
+  const { monthlyData, giftDistribution, chartConfig } = useStats();
 
   return (
     <Link to="/dashboard/inventory">
@@ -22,55 +22,39 @@ const GiftInventoryStatsCard: React.FC = () => {
             <ChartContainer config={chartConfig} className="h-full">
               <ResponsiveContainer width="100%" height="100%">
                 <div className="flex flex-col sm:flex-row items-center h-full gap-4">
-                  <div className="w-full sm:w-1/2 h-full min-h-[160px]">
-                    <LineChart 
-                      data={monthlyData}
-                      margin={{ top: 5, right: 10, left: -20, bottom: 5 }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-                      <XAxis 
-                        dataKey="name" 
-                        fontSize={10} 
-                        axisLine={false} 
-                        tickLine={false}
-                        tick={{ fontSize: 10 }}
-                      />
-                      <YAxis 
-                        fontSize={10} 
-                        axisLine={false} 
-                        tickLine={false}
-                        tick={{ fontSize: 10 }}
-                      />
-                      <Tooltip />
-                      <Legend wrapperStyle={{ fontSize: '10px' }}/>
-                      <Line 
-                        type="monotone" 
-                        dataKey="stock" 
-                        name="Gift Stock" 
-                        stroke="#FFBB28" 
-                        strokeWidth={2}
-                        dot={{ r: 3 }}
-                      />
-                    </LineChart>
-                  </div>
-                  <div className="w-full sm:w-1/2 h-full min-h-[160px] flex items-center justify-center">
-                    <PieChart width={160} height={160}>
-                      <Pie
+                  <div className="w-full h-full min-h-[160px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart 
                         data={giftDistribution}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={false}
-                        label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                        outerRadius={60}
-                        fill="#8884d8"
-                        dataKey="value"
+                        margin={{ top: 5, right: 5, left: -20, bottom: 5 }}
+                        layout="vertical"
                       >
-                        {giftDistribution.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={chartColors[index % chartColors.length]} />
-                        ))}
-                      </Pie>
-                      <Tooltip />
-                    </PieChart>
+                        <CartesianGrid strokeDasharray="3 3" opacity={0.3} horizontal={false} />
+                        <XAxis 
+                          type="number"
+                          fontSize={10} 
+                          axisLine={false} 
+                          tickLine={false}
+                          tick={{ fontSize: 10 }}
+                        />
+                        <YAxis 
+                          type="category"
+                          dataKey="name"
+                          fontSize={10} 
+                          axisLine={false} 
+                          tickLine={false}
+                          tick={{ fontSize: 10 }}
+                          width={80}
+                        />
+                        <Tooltip />
+                        <Bar 
+                          dataKey="value" 
+                          name="Quantity" 
+                          fill="#8884d8" 
+                          radius={[0, 4, 4, 0]}
+                        />
+                      </BarChart>
+                    </ResponsiveContainer>
                   </div>
                 </div>
               </ResponsiveContainer>
