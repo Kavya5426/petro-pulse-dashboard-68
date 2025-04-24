@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -13,12 +12,10 @@ const InventoryPage = () => {
   const [giftStockOpen, setGiftStockOpen] = useState(false);
   const [redeemedGiftsOpen, setRedeemedGiftsOpen] = useState(false);
   
-  // Sample inventory stats
   const inventoryStats = {
     totalItems: 50,
     lowStockItems: 3,
-    lastCheckIn: "2024-04-10",
-    nextCheckIn: "2024-04-25",
+    lastCheckIn: "2024-04-10"
   };
 
   return (
@@ -28,8 +25,7 @@ const InventoryPage = () => {
           <CardTitle className="text-2xl font-bold text-primary">Gift Inventory Management</CardTitle>
         </CardHeader>
         <CardContent>
-          {/* Stats cards */}
-          <div className="grid grid-cols-4 gap-4 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
             <Card className="bg-blue-50 border-none shadow-sm">
               <CardContent className="p-4 flex flex-col items-center justify-center">
                 <div className="flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 mb-2">
@@ -56,17 +52,7 @@ const InventoryPage = () => {
                   <Calendar className="h-6 w-6 text-green-600" />
                 </div>
                 <p className="text-sm font-medium text-gray-600">Last Check-in</p>
-                <p className="text-2xl font-bold">{inventoryStats.lastCheckIn}</p>
-              </CardContent>
-            </Card>
-            
-            <Card className="bg-purple-50 border-none shadow-sm">
-              <CardContent className="p-4 flex flex-col items-center justify-center">
-                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-purple-100 mb-2">
-                  <Calendar className="h-6 w-6 text-purple-600" />
-                </div>
-                <p className="text-sm font-medium text-gray-600">Next Check-in</p>
-                <p className="text-2xl font-bold">{inventoryStats.nextCheckIn}</p>
+                <p className="text-2xl font-bold break-all text-center">{inventoryStats.lastCheckIn}</p>
               </CardContent>
             </Card>
           </div>

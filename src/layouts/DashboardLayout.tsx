@@ -70,16 +70,16 @@ const DashboardLayout = () => {
           <SidebarContent>
             <SidebarGroup>
               <div className="p-4">
-                <div className="flex justify-center w-full mb-6">
+                <div className="flex justify-center w-full mb-4">
                   <img 
                     src="/lovable-uploads/5c4d73ad-6bdc-4bb7-b7b1-6bca1085a894.png" 
                     alt="hhp logo" 
-                    className="w-48 h-auto"
+                    className="w-36 h-auto"
                   />
                 </div>
                 <p className="text-sm font-medium text-muted-foreground">Dashboard</p>
               </div>
-              <SidebarGroupContent>
+              <SidebarGroupContent className="mt-2">
                 <SidebarMenu>
                   {menuItems.map((item) => (
                     <SidebarMenuItem key={item.label}>
@@ -101,7 +101,7 @@ const DashboardLayout = () => {
         </Sidebar>
 
         <div className="flex-1">
-          <header className="h-16 border-b flex items-center justify-between px-6 bg-white shadow-sm">
+          <header className="h-16 border-b flex items-center justify-between px-6 bg-white/80 backdrop-blur-sm shadow-sm">
             <div className="flex items-center space-x-4">
               <SidebarTrigger />
               <h1 className="text-2xl font-semibold text-primary">
@@ -132,7 +132,7 @@ const DashboardLayout = () => {
             </div>
           </header>
 
-          <main className="bg-gray-50 h-[calc(100vh-4rem)] overflow-auto p-8">
+          <main className="bg-gray-50 h-[calc(100vh-4rem)] overflow-auto p-4 md:p-8">
             <Outlet />
           </main>
         </div>

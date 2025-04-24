@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -69,16 +68,15 @@ const HomePage = () => {
     Others: { color: "#8884d8", label: "Others" },
   };
 
-  // Show the same interface for both manager and employee roles
   if (user?.role === 'manager' || user?.role === 'employee') {
     return (
-      <div className="space-y-8">
+      <div className="space-y-6">
         <h1 className="text-4xl font-bold text-gray-900">Welcome to Petro Pump Management System</h1>
         <p className="text-xl text-gray-600 mb-8">
           "Efficiency is doing things right; effectiveness is doing the right things."
         </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           <Link to="/dashboard/new-card" className="col-span-1">
             <Card className="hover:shadow-xl transition-shadow cursor-pointer h-full border-2 border-gray-100">
               <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
@@ -175,18 +173,18 @@ const HomePage = () => {
             </Card>
           </Link>
           
-          <Link to="/dashboard/inventory" className="col-span-1 md:col-span-2">
+          <Link to="/dashboard/inventory" className="col-span-1 sm:col-span-2">
             <Card className="hover:shadow-xl transition-shadow cursor-pointer h-full border-2 border-gray-100">
               <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
                 <CardTitle className="text-xl font-bold">Gift Inventory Stats</CardTitle>
                 <Gift className="h-6 w-6 text-purple-500" />
               </CardHeader>
               <CardContent className="p-6">
-                <div className="h-64">
+                <div className="h-64 w-full">
                   <ChartContainer config={chartConfig} className="h-full">
-                    <ResponsiveContainer>
-                      <div className="flex items-center h-full">
-                        <div className="w-1/2 h-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <div className="flex flex-col sm:flex-row items-center h-full gap-4">
+                        <div className="w-full sm:w-1/2 h-full">
                           <LineChart data={monthlyData}>
                             <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
                             <XAxis dataKey="name" fontSize={12} axisLine={false} tickLine={false} />
@@ -196,7 +194,7 @@ const HomePage = () => {
                             <Line type="monotone" dataKey="stock" name="Gift Stock" stroke="#FFBB28" strokeWidth={2} />
                           </LineChart>
                         </div>
-                        <div className="w-1/2 h-full">
+                        <div className="w-full sm:w-1/2 h-full">
                           <PieChart>
                             <Pie
                               data={giftDistribution}
@@ -218,12 +216,6 @@ const HomePage = () => {
                       </div>
                     </ResponsiveContainer>
                   </ChartContainer>
-                </div>
-                <div className="mt-4 grid gap-4">
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm text-muted-foreground">Current gift stock</p>
-                    <p className="text-lg font-semibold">{statsData.report.giftStock}</p>
-                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -277,7 +269,6 @@ const HomePage = () => {
     );
   }
   
-  // Fallback for admin or other roles
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <h1 className="text-4xl font-bold text-gray-900">Welcome to Petro Pump Management System</h1>

@@ -18,10 +18,17 @@ const DuplicateCardPage = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const { toast } = useToast();
   
+  const resetForm = () => {
+    setSearchTerm('');
+    setCustomerData(null);
+    setIsBlocked(false);
+    setShowCardBlock(false);
+    setNewCardNumber('');
+    setShowSuccess(false);
+  };
+
   const handleSearch = () => {
     if (!searchTerm) return;
-    
-    // In a real app, this would fetch data from a backend
     setCustomerData({
       name: 'John Doe',
       phoneNumber: '1234567890',
@@ -32,7 +39,6 @@ const DuplicateCardPage = () => {
   };
 
   const handleBlockCard = () => {
-    // In a real app, this would block the card in the backend
     setIsBlocked(true);
     toast({
       title: "Card Blocked",
@@ -41,7 +47,6 @@ const DuplicateCardPage = () => {
   };
 
   const handleGenerateNewCard = () => {
-    // Generate a random 8-digit card number
     const newNumber = Math.floor(10000000 + Math.random() * 90000000).toString();
     setNewCardNumber(newNumber);
     setShowSuccess(true);
@@ -55,18 +60,29 @@ const DuplicateCardPage = () => {
     setShowCardBlock(true);
   };
 
-  return (
-    <div className="max-w-2xl mx-auto">
-      {showSuccess && (
-        <Alert className="mb-6 border-green-500 bg-green-50 text-green-800">
+  if (showSuccess) {
+    return (
+      <div className="max-w-2xl mx-auto space-y-6">
+        <Alert className="border-green-500 bg-green-50 text-green-800">
           <Check className="h-5 w-5 text-green-600" />
-          <AlertTitle>Success!</AlertTitle>
+          <AlertTitle>Card Duplication Complete!</AlertTitle>
           <AlertDescription>
-            New card has been generated successfully. Card number: {newCardNumber}
+            New card has been generated successfully.<br />
+            Card number: {newCardNumber}
           </AlertDescription>
         </Alert>
-      )}
+        <Button 
+          onClick={resetForm} 
+          className="w-full"
+        >
+          Duplicate Another Card
+        </Button>
+      </div>
+    );
+  }
 
+  return (
+    <div className="max-w-2xl mx-auto">
       <Card className="shadow-lg border-none">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-primary">Duplicate Card</CardTitle>
