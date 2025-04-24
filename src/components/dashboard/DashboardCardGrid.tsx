@@ -10,8 +10,8 @@ import ReportsStatsCard from './ReportsStatsCard';
 const DashboardCardGrid: React.FC = () => {
   const { user } = useAuth();
 
-  // Only show the dashboard cards for admin
-  if (user?.role !== 'admin') {
+  // Only show the dashboard cards for admin and manager
+  if (user?.role !== 'admin' && user?.role !== 'manager') {
     return null;
   }
 

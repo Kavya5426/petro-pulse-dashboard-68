@@ -7,13 +7,13 @@ import DashboardCardGrid from '@/components/dashboard/DashboardCardGrid';
 
 const HomePage = () => {
   const { user } = useAuth();
+  const showCards = user?.role === 'admin' || user?.role === 'manager';
 
   return (
     <StatsProvider>
       <div className="space-y-6">
         <WelcomeBanner />
-        
-        {user?.role === 'admin' && <DashboardCardGrid />}
+        {showCards && <DashboardCardGrid />}
       </div>
     </StatsProvider>
   );
