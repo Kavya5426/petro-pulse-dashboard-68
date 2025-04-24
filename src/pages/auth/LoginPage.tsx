@@ -7,11 +7,15 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { UserRole } from '@/types/auth';
+import ForgotPasswordDialog from '@/components/dialogs/ForgotPasswordDialog';
+import SignupDialog from '@/components/dialogs/SignupDialog';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState<UserRole>('employee');
+  const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
+  const [signupOpen, setSignupOpen] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -84,22 +88,42 @@ const LoginPage = () => {
               </div>
               
               <div className="text-right">
-                <a href="#" className="text-blue-600 hover:underline text-sm">
+                <button 
+                  type="button"
+                  className="text-blue-600 hover:underline text-sm"
+                  onClick={() => setForgotPasswordOpen(true)}
+                >
                   Forgot Password?
-                </a>
+                </button>
               </div>
               
               <Button type="submit" className="w-full bg-amber-500 hover:bg-amber-600">
                 Login
               </Button>
               
-              <Button type="button" variant="outline" className="w-full mt-4 border-amber-500 text-amber-500 hover:bg-amber-50">
+              <Button 
+                type="button" 
+                variant="outline" 
+                className="w-full mt-4 border-amber-500 text-amber-500 hover:bg-amber-50"
+                onClick={() => setSignupOpen(true)}
+              >
                 Create Account
               </Button>
             </form>
           </Card>
         </div>
       </div>
+      
+      {/* Dialogs */}
+      <ForgotPasswordDialog
+        open={forgotPasswordOpen}
+        onClose={() => setForgotPasswordOpen(false)}
+      />
+      
+      <SignupDialog
+        open={signupOpen}
+        onClose={() => setSignupOpen(false)}
+      />
     </div>
   );
 };
