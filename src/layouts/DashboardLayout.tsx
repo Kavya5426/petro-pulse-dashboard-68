@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -43,7 +42,6 @@ const DashboardLayout = () => {
     navigate('/login');
   };
 
-  // Define menu items based on user role
   const getMenuItems = () => {
     if (user?.role === 'admin') {
       return [
@@ -52,7 +50,6 @@ const DashboardLayout = () => {
         { icon: FileText, label: 'Reports', path: '/dashboard/reports' },
       ];
     } else {
-      // Default menu items for managers, employees and other roles
       return [
         { icon: Home, label: 'Home', path: '/dashboard' },
         { icon: CreditCard, label: 'New Card', path: '/dashboard/new-card' },
@@ -72,21 +69,15 @@ const DashboardLayout = () => {
         <Sidebar>
           <SidebarContent>
             <SidebarGroup>
-              <div className="p-4 space-y-1 bg-gray-50">
-                <div className="flex justify-center w-full">
-                  <div className="w-full max-w-[240px] overflow-hidden">
-                    <img 
-                      src="/lovable-uploads/154a4711-7830-4e91-a6d0-3f368433c31d.png" 
-                      alt="hhp logo" 
-                      className="w-full h-auto max-h-32 object-contain"
-                      style={{
-                        backgroundColor: '#F9FAFB', // Tailwind's gray-50 hex code
-                        filter: 'drop-shadow(0 0 1px rgba(0,0,0,0.1))'
-                      }}
-                    />
-                  </div>
+              <div className="p-4">
+                <div className="flex justify-center w-full mb-6">
+                  <img 
+                    src="/lovable-uploads/5c4d73ad-6bdc-4bb7-b7b1-6bca1085a894.png" 
+                    alt="hhp logo" 
+                    className="w-48 h-auto"
+                  />
                 </div>
-                <p className="text-sm font-medium text-muted-foreground mt-4">Dashboard</p>
+                <p className="text-sm font-medium text-muted-foreground">Dashboard</p>
               </div>
               <SidebarGroupContent>
                 <SidebarMenu>
@@ -147,7 +138,6 @@ const DashboardLayout = () => {
         </div>
       </div>
       
-      {/* Profile Dialog */}
       {user && (
         <ProfileDialog 
           open={isProfileOpen} 
