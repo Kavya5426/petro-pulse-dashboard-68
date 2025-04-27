@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -56,6 +57,7 @@ const DashboardLayout = () => {
         { icon: Copy, label: 'Duplicate Card', path: '/dashboard/duplicate-card' },
         { icon: ShoppingCart, label: 'Redemption', path: '/dashboard/redemption' },
         { icon: FileText, label: 'Gift Reports', path: '/dashboard/gift-report' },
+        { icon: FileText, label: 'Reports', path: '/dashboard/reports' }, // Added Reports page
       ];
     } else {
       return [
